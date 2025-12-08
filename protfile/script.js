@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else if (button.textContent.includes('Download CV')) {
             // Handle CV download
-            showNotification('CV download will be available soon!', 'info');
+            window.open('https://guts.uz/resume.pdf', '_blank');
         }
     }
 
