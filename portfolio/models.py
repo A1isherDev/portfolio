@@ -27,7 +27,7 @@ class Project(models.Model):
     slug = models.SlugField(max_length=250, unique=True)
     short_description = models.TextField(max_length=500)
     description = models.TextField()
-    image = models.ImageField(upload_to='projects/', blank=True, null=True)
+    image = models.FileField(upload_to='projects/', blank=True, null=True)
     github_url = models.URLField(blank=True, null=True)
     live_url = models.URLField(blank=True, null=True)
     technologies = models.ManyToManyField(Technology, related_name='projects')

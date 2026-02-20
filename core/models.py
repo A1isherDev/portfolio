@@ -10,8 +10,8 @@ class SiteSetting(models.Model):
     hero_greeting = models.CharField(max_length=100, default="👋 Hello there!")
     hero_description = models.TextField(default="I'm a passionate Software Developer who enjoys understanding how systems work.")
     contact_email = models.EmailField(default="alisher@example.com")
-    logo = models.ImageField(upload_to='core/', blank=True, null=True)
-    favicon = models.ImageField(upload_to='core/', blank=True, null=True)
+    logo = models.FileField(upload_to='core/', blank=True, null=True)
+    favicon = models.FileField(upload_to='core/', blank=True, null=True)
     
     class Meta:
         verbose_name = "Site Setting"
@@ -68,7 +68,7 @@ class SEO(models.Model):
     meta_title = models.CharField(max_length=200)
     meta_description = models.TextField(max_length=500)
     meta_keywords = models.CharField(max_length=500, blank=True)
-    og_image = models.ImageField(upload_to='seo/', blank=True, null=True)
+    og_image = models.FileField(upload_to='seo/', blank=True, null=True)
     
     class Meta:
         verbose_name = "SEO Metadata"

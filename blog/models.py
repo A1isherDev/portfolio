@@ -50,7 +50,7 @@ class Article(models.Model):
     slug = models.SlugField(max_length=250, unique=True)
     excerpt = models.TextField(max_length=500, help_text="Brief description of the article")
     content = models.TextField()
-    cover = models.ImageField(upload_to='blog/', blank=True, null=True)
+    cover = models.FileField(upload_to='blog/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles')
     tags = models.ManyToManyField(Tag, related_name='articles', blank=True)
     published = models.BooleanField(default=False)

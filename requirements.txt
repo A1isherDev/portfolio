@@ -1,6 +1,5 @@
 Django==5.2.10
 django-extensions==4.1
-Pillow==12.1.0
 markdown==3.10.2
 django-summernote==0.8.20.0
 bleach==6.3.0
