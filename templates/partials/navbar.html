@@ -1,0 +1,33 @@
+<header>
+    <nav class="navbar">
+        <div class="nav-brand">
+            {% if site_settings.logo %}
+            <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}" class="brand-logo">
+            {% else %}
+            {{ site_settings.site_name|default:"Portfolio" }}<span class="brand-dot">.</span>
+            {% endif %}
+        </div>
+        <ul class="nav-menu">
+            <li><a href="{% url 'home' %}"
+                    class="nav-link {% if request.resolved_url == '/' %}active{% endif %}">Home</a></li>
+            <li><a href="{% url 'pages:about' %}"
+                    class="nav-link {% if 'about' in request.path %}active{% endif %}">About</a></li>
+            <li><a href="{% url 'pages:skills' %}"
+                    class="nav-link {% if 'skills' in request.path %}active{% endif %}">Skills</a></li>
+            <li><a href="{% url 'portfolio:project_list' %}"
+                    class="nav-link {% if 'projects' in request.path %}active{% endif %}">Projects</a></li>
+            <li><a href="{% url 'blog:article_list' %}"
+                    class="nav-link {% if 'blog' in request.path %}active{% endif %}">Blog</a></li>
+            <li><a href="{% url 'core:contact' %}"
+                    class="nav-link {% if 'contact' in request.path %}active{% endif %}">Contact</a></li>
+        </ul>
+        <div class="nav-cta">
+            <a href="{% url 'core:contact' %}" class="cta-btn">Let's Talk</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+</header>

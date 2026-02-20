@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Expertise - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="section skills-hero">
+    <div class="container animate-on-scroll">
+        <div class="page-header center">
+            <span class="eyebrow">My Toolkit</span>
+            <h1 class="page-title">Skills & <span class="text-gradient">Expertise</span></h1>
+            <p class="page-description">A comprehensive overview of my technical proficiency and specialized domains.
+            </p>
+        </div>
+
+        <div class="skills-sections-grid">
+            {% for group, group_skills in skills_by_group.items %}
+            <div class="skill-group-container reveal">
+                <div class="group-header">
+                    <div class="group-icon-wrapper">
+                        {% if "Backend" in group %}<i class="fas fa-server"></i>
+                        {% elif "Frontend" in group %}<i class="fas fa-laptop-code"></i>
+                        {% elif "DevOps" in group %}<i class="fas fa-terminal"></i>
+                        {% elif "Database" in group %}<i class="fas fa-database"></i>
+                        {% else %}<i class="fas fa-layer-group"></i>{% endif %}
+                    </div>
+                    <h2 class="group-title">{{ group }}</h2>
+                </div>
+
+                <div class="skills-grid-inner">
+                    {% for skill in group_skills %}
+                    <div class="premium-skill-card">
+                        <div class="skill-main">
+                            <div class="skill-info">
+                                <div class="skill-top">
+                                    <span class="skill-icon">
+                                        {% if skill.icon_class %}
+                                        <i class="{{ skill.icon_class }}"></i>
+                                        {% else %}
+                                        <i class="fas fa-microchip"></i>
+                                        {% endif %}
+                                    </span>
+                                    <h3 class="skill-name">{{ skill.name }}</h3>
+                                </div>
+                                <div class="skill-meta">
+                                    <span class="skill-tag">{{ skill.get_group_display }}</span>
+                                </div>
+                            </div>
+                            <div class="skill-progress-wrapper">
+                                <div class="progress-labels">
+                                    <span class="proficiency">Proficiency</span>
+                                    <span class="percentage">{{ skill.level }}%</span>
+                                </div>
+                                <div class="premium-progress-track">
+                                    <div class="premium-progress-fill" data-level="{{ skill.level }}">
+                                        <div class="fill-glow"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="skills-footer-stats reveal">
+            <div class="stats-glass-card">
+                <div class="stat-item">
+                    <span class="stat-val">{{ skills|length }}</span>
+                    <span class="stat-lbl">Core Skills</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-val">{{ skills_by_group|length }}</span>
+                    <span class="stat-lbl">Expertise Areas</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-val">∞</span>
+                    <span class="stat-lbl">Continuous Learning</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

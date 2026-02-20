@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="section blog-page">
+    <div class="container">
+        <div class="page-header center animate-on-scroll">
+            <span class="eyebrow">Articles &amp; Insights</span>
+            <h1 class="page-title">The <span class="text-gradient">Blog</span></h1>
+            <p class="page-description">Thoughts, tutorials, and deep dives into web development.</p>
+        </div>
+
+        <div class="blog-layout">
+            <div class="blog-main">
+
+                {% if featured_articles %}
+                <div class="featured-articles reveal">
+                    <div class="section-eyebrow">
+                        <i class="fas fa-star"></i><span>Featured</span>
+                    </div>
+                    <div class="featured-grid">
+                        {% for a in featured_articles %}
+                        <article class="featured-article-card">
+                            {% if a.cover %}
+                            <div class="featured-article-image">
+                                <img src="{{ a.cover.url }}" alt="{{ a.title }}">
+                                <div class="image-overlay"></div>
+                            </div>
+                            {% else %}
+                            <div class="featured-article-image featured-article-image--placeholder">
+                                <i class="fas fa-feather-alt"></i>
+                            </div>
+                            {% endif %}
+                            <div class="featured-article-image">
+                                <div class="article-meta-row">
+                                    <span class="category-badge">{{ a.category.name }}</span>
+                                    <span class="meta-dot"></span>
+                                    <span class="article-date">{{ a.published_at|date:"M d, Y" }}</span>
+                                    <span class="meta-dot"></span>
+                                    <span class="reading-time"><i class="far fa-clock"></i> {{ a.reading_time }} min</span>
+                                </div>
+                                <h3 class="featured-title">
+                                    <a href="{{ a.get_absolute_url }}">{{ a.title }}</a>
+                                </h3>
+                                <p class="article-excerpt">{{ a.excerpt|truncatewords:22 }}</p>
+                                <a href="{{ a.get_absolute_url }}" class="read-more-btn">
+                                    Read Article <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="all-articles">
+                    <div class="section-eyebrow reveal">
+                        <i class="fas fa-newspaper"></i><span>Latest</span>
+                    </div>
+                    <div class="articles-list">
+                        {% for a in articles %}
+                        <article class="article-card reveal">
+                            <div class="article-card-image">
+                                {% if a.cover %}
+                                <img src="{{ a.cover.url }}" alt="{{ a.title }}">
+                                {% else %}
+                                <div class="article-image-placeholder">
+                                    <i class="fas fa-feather-alt"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="article-card-content">
+                                <div class="article-meta-row">
+                                    <span class="category-badge">{{ a.category.name }}</span>
+                                    <span class="meta-dot"></span>
+                                    <span class="article-date">{{ a.published_at|date:"M d, Y" }}</span>
+                                    <span class="meta-dot"></span>
+                                    <span class="reading-time"><i class="far fa-clock"></i> {{ a.reading_time }} min</span>
+                                </div>
+                                <h3 class="article-card-title">
+                                    <a href="{{ a.get_absolute_url }}">{{ a.title }}</a>
+                                </h3>
+                                <p class="article-excerpt">{{ a.excerpt|truncatewords:25 }}</p>
+                                <div class="article-card-footer">
+                                    <div class="article-tags">
+                                        {% for tag in a.tags.all|slice:':3' %}
+                                        <a href="{% url 'blog:tag_articles' tag.slug %}" class="tag-pill">{{ tag.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <a href="{{ a.get_absolute_url }}" class="read-more-btn compact">
+                                        Read <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                        {% empty %}
+                        <div class="no-articles glass-card reveal">
+                            <div class="empty-icon"><i class="fas fa-feather-alt"></i></div>
+                            <h3>Wisdom in Progress</h3>
+                            <p>High-fidelity insights coming soon. Check back shortly.</p>
+                            <div class="empty-action">
+                                <a href="{% url 'home' %}" class="cta-btn secondary">Return Home</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if is_paginated %}
+                <div class="pagination reveal">
+                    <div class="pagination-info">
+                        Showing {{ page_obj.start_index }}{{ page_obj.end_index }}
+                        of {{ page_obj.paginator.count }} articles
+                    </div>
+                    <div class="pagination-controls">
+                        {% if page_obj.has_previous %}
+                        <a href="?page=1" class="pagination-btn">First</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-btn"> Prev</a>
+                        {% endif %}
+                        <span class="pagination-current">
+                            {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                        </span>
+                        {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="pagination-btn">Next </a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-btn">Last</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <aside class="blog-sidebar">
+                <div class="sidebar-widget reveal">
+                    <div class="widget-header">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>Categories</h3>
+                    </div>
+                    <ul class="category-list">
+                        {% for cat in categories %}
+                        <li>
+                            <a href="{{ cat.get_absolute_url }}" class="category-link">
+                                <span>{{ cat.name }}</span>
+                                <span class="count-badge">{{ cat.articles.count }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget reveal">
+                    <div class="widget-header">
+                        <i class="fas fa-tags"></i>
+                        <h3>Popular Tags</h3>
+                    </div>
+                    <div class="tag-cloud">
+                        {% for tag in tags|slice:':15' %}
+                        <a href="{% url 'blog:tag_articles' tag.slug %}" class="tag-cloud-item">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="sidebar-widget reveal">
+                    <div class="widget-header">
+                        <i class="fas fa-rss"></i>
+                        <h3>Subscribe</h3>
+                    </div>
+                    <p class="widget-desc">Stay updated with the latest articles and insights.</p>
+                    <a href="{% url 'blog:feed' %}" class="rss-link">
+                        <i class="fas fa-rss"></i> RSS Feed
+                    </a>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
