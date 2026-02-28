@@ -12,6 +12,7 @@ class SiteSetting(models.Model):
     contact_email = models.EmailField(default="alisher@example.com")
     logo = models.FileField(upload_to='core/', blank=True, null=True)
     favicon = models.FileField(upload_to='core/', blank=True, null=True)
+    cv = models.FileField(upload_to='cv/', blank=True, null=True)
     
     class Meta:
         verbose_name = "Site Setting"

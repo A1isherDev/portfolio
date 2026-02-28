@@ -11,7 +11,7 @@ class SiteSettingAdmin(ModelAdmin):
             'fields': ('site_name', 'hero_title', 'hero_subtitle', 'hero_greeting', 'hero_description', 'contact_email')
         }),
         ('Media', {
-            'fields': ('logo', 'favicon')
+            'fields': ('logo', 'favicon', 'cv')
         }),
     )
     

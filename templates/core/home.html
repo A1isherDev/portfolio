@@ -34,7 +34,9 @@
                         <span>Hire Me</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="#" class="hire-btn secondary" onclick="window.print()">
+                    <a href="{% if site_settings.cv %}{{ site_settings.cv.url }}{% else %}#{% endif %}"
+                        class="hire-btn secondary" {% if site_settings.cv %}download{% else %}onclick="window.print()"
+                        {% endif %}>
                         <i class="fas fa-download"></i>
                         <span>Download CV</span>
                     </a>
