@@ -33,7 +33,7 @@ class AboutSectionAdmin(ModelAdmin):
     list_display = ['title']
     fieldsets = (
         ('Basic Information', {
-            'fields': ('title', 'greeting', 'hero_description')
+            'fields': ('title',)
         }),
         ('Content', {
             'fields': ('content',)
