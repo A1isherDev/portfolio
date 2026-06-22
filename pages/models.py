@@ -53,20 +53,22 @@ class Experience(models.Model):
 
 class AboutSection(models.Model):
     title = models.CharField(max_length=200, default="About Me")
-    content = models.TextField()
+    content = models.TextField(blank=True, default="")
     education = models.CharField(max_length=200, default="Computer Science")
-    location = models.CharField(max_length=200, default="Uzbekistan Fergana")
-    years_experience = models.CharField(max_length=50, default="2+")
-    projects_completed = models.CharField(max_length=50, default="30+")
-    happy_clients = models.CharField(max_length=50, default="0+")
-    
+    location = models.CharField(max_length=200, default="Remote · Worldwide")
+    languages = models.CharField(max_length=200, blank=True, default="English",
+                                 help_text="Comma-separated languages you speak")
+    years_experience = models.CharField(max_length=50, default="3+")
+    projects_completed = models.CharField(max_length=50, default="20+")
+    happy_clients = models.CharField(max_length=50, default="10+")
+
     class Meta:
         verbose_name = "About Section"
         verbose_name_plural = "About Sections"
-    
+
     def __str__(self):
         return self.title
-    
+
     @classmethod
     def get_singleton(cls):
         obj, created = cls.objects.get_or_create(
@@ -74,10 +76,11 @@ class AboutSection(models.Model):
             defaults={
                 'title': 'About Me',
                 'education': 'Computer Science',
-                'location': 'Uzbekistan Fergana',
-                'years_experience': '2+',
-                'projects_completed': '30+',
-                'happy_clients': '0+'
+                'location': 'Remote · Worldwide',
+                'languages': 'English',
+                'years_experience': '3+',
+                'projects_completed': '20+',
+                'happy_clients': '10+',
             }
         )
         return obj

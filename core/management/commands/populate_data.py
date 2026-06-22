@@ -1,337 +1,243 @@
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
-from core.models import SiteSetting, SocialLink, SEO
-from pages.models import Skill, Experience, AboutSection
-from portfolio.models import Technology, Project
-from blog.models import Category, Tag, Article
 from django.utils import timezone
 from datetime import date
 
+from core.models import SiteSetting, SocialLink, SEO
+from pages.models import Skill, Experience, AboutSection, Service, ServiceFeature
+from portfolio.models import Technology, Project
+from blog.models import Category, Tag, Article
+
 
 class Command(BaseCommand):
-    help = 'Populate the database with initial data'
+    help = 'Populate the database with generic placeholder content for the portfolio template'
 
     def handle(self, *args, **options):
-        self.stdout.write('Populating initial data...')
-        
-        # Create site settings
-        site_settings, created = SiteSetting.objects.get_or_create(
+        self.stdout.write('Populating placeholder data...')
+
+        # ── Site settings ──────────────────────────────────────────────────
+        SiteSetting.objects.get_or_create(
             pk=1,
             defaults={
-                'site_name': 'A1isherDev',
-                'hero_title': "I'm Alisher",
-                'hero_subtitle': 'Web Developer',
-                'contact_email': 'alisher@example.com',
+                'site_name': 'Alex Morgan',
+                'hero_title': "I'm Alex Morgan",
+                'hero_subtitle': 'Full-Stack Developer',
+                'hero_greeting': '👋 Hello, I am',
+                'hero_description': "I build clean, scalable web applications with a focus on great "
+                                    "user experiences and reliable backend systems.",
+                'contact_email': 'hello@example.com',
+                'phone': '',
+                'location': 'Remote · Worldwide',
             }
         )
-        if created:
-            self.stdout.write('Created site settings')
-        
-        # Create social links
+
+        # ── Social links ───────────────────────────────────────────────────
         social_links_data = [
-            {
-                'platform_name': 'discord',
-                'url': 'https://discord.com/users/1354328698454675500',
-                'icon_class': 'fab fa-discord',
-                'order': 1,
-            },
-            {
-                'platform_name': 'linkedin',
-                'url': 'https://www.linkedin.com/in/alisher-muhammadaliyev-616795344/',
-                'icon_class': 'fab fa-linkedin-in',
-                'order': 2,
-            },
-            {
-                'platform_name': 'github',
-                'url': 'https://github.com/A1isherDev',
-                'icon_class': 'fab fa-github',
-                'order': 3,
-            },
-            {
-                'platform_name': 'instagram',
-                'url': 'https://instagram.com/a1isherdev/',
-                'icon_class': 'fab fa-instagram',
-                'order': 4,
-            },
+            {'platform_name': 'github', 'url': 'https://github.com/yourusername',
+             'icon_class': 'fab fa-github', 'order': 1},
+            {'platform_name': 'linkedin', 'url': 'https://www.linkedin.com/in/yourusername/',
+             'icon_class': 'fab fa-linkedin-in', 'order': 2},
+            {'platform_name': 'twitter', 'url': 'https://twitter.com/yourusername',
+             'icon_class': 'fab fa-twitter', 'order': 3},
+            {'platform_name': 'instagram', 'url': 'https://instagram.com/yourusername',
+             'icon_class': 'fab fa-instagram', 'order': 4},
         ]
-        
-        for social_data in social_links_data:
-            social_link, created = SocialLink.objects.get_or_create(
-                platform_name=social_data['platform_name'],
-                defaults=social_data
-            )
-            if created:
-                self.stdout.write(f"Created social link: {social_data['platform_name']}")
-        
-        # Create skills
+        for data in social_links_data:
+            SocialLink.objects.get_or_create(platform_name=data['platform_name'], defaults=data)
+
+        # ── Skills ─────────────────────────────────────────────────────────
         skills_data = [
             {'name': 'HTML5', 'level': 95, 'group': 'frontend', 'icon_class': 'fab fa-html5'},
-            {'name': 'CSS3', 'level': 60, 'group': 'frontend', 'icon_class': 'fab fa-css3-alt'},
-            {'name': 'JavaScript', 'level': 20, 'group': 'frontend', 'icon_class': 'fab fa-js-square'},
-            {'name': 'Node.js', 'level': 40, 'group': 'backend', 'icon_class': 'fab fa-node-js'},
-            {'name': 'Python', 'level': 80, 'group': 'backend', 'icon_class': 'fab fa-python'},
-            {'name': 'Server', 'level': 50, 'group': 'backend', 'icon_class': 'fas fa-server'},
-            {'name': 'SQLite', 'level': 35, 'group': 'database', 'icon_class': 'fas fa-database'},
-            {'name': 'MySQL', 'level': 20, 'group': 'database', 'icon_class': 'fas fa-database'},
-            {'name': 'PostgreSQL', 'level': 70, 'group': 'database', 'icon_class': 'fas fa-database'},
-            {'name': 'Git', 'level': 90, 'group': 'devops', 'icon_class': 'fab fa-git-alt'},
-            {'name': 'Docker', 'level': 60, 'group': 'devops', 'icon_class': 'fab fa-docker'},
-            {'name': 'VS Code', 'level': 95, 'group': 'devops', 'icon_class': 'fas fa-code'},
+            {'name': 'CSS3', 'level': 90, 'group': 'frontend', 'icon_class': 'fab fa-css3-alt'},
+            {'name': 'JavaScript', 'level': 85, 'group': 'frontend', 'icon_class': 'fab fa-js'},
+            {'name': 'React', 'level': 80, 'group': 'frontend', 'icon_class': 'fab fa-react'},
+            {'name': 'Python', 'level': 90, 'group': 'backend', 'icon_class': 'fab fa-python'},
+            {'name': 'Django', 'level': 88, 'group': 'backend', 'icon_class': 'fas fa-server'},
+            {'name': 'Node.js', 'level': 75, 'group': 'backend', 'icon_class': 'fab fa-node-js'},
+            {'name': 'REST APIs', 'level': 85, 'group': 'backend', 'icon_class': 'fas fa-plug'},
+            {'name': 'PostgreSQL', 'level': 80, 'group': 'database', 'icon_class': 'fas fa-database'},
+            {'name': 'Redis', 'level': 65, 'group': 'database', 'icon_class': 'fas fa-database'},
+            {'name': 'Git', 'level': 92, 'group': 'devops', 'icon_class': 'fab fa-git-alt'},
+            {'name': 'Docker', 'level': 75, 'group': 'devops', 'icon_class': 'fab fa-docker'},
         ]
-        
-        for skill_data in skills_data:
-            skill, created = Skill.objects.get_or_create(
-                name=skill_data['name'],
-                defaults=skill_data
-            )
-            if created:
-                self.stdout.write(f"Created skill: {skill_data['name']}")
-        
-        # Create technologies
+        for data in skills_data:
+            Skill.objects.get_or_create(name=data['name'], defaults=data)
+
+        # ── Technologies ───────────────────────────────────────────────────
         technologies_data = [
-            {'name': 'Django', 'icon_class': 'fas fa-code'},
+            {'name': 'Django', 'icon_class': 'fas fa-server'},
             {'name': 'Python', 'icon_class': 'fab fa-python'},
+            {'name': 'React', 'icon_class': 'fab fa-react'},
             {'name': 'JavaScript', 'icon_class': 'fab fa-js'},
-            {'name': 'HTML5', 'icon_class': 'fab fa-html5'},
-            {'name': 'CSS3', 'icon_class': 'fab fa-css3-alt'},
             {'name': 'PostgreSQL', 'icon_class': 'fas fa-database'},
             {'name': 'Docker', 'icon_class': 'fab fa-docker'},
+            {'name': 'Tailwind CSS', 'icon_class': 'fas fa-wind'},
             {'name': 'Git', 'icon_class': 'fab fa-git-alt'},
         ]
-        
-        for tech_data in technologies_data:
-            tech, created = Technology.objects.get_or_create(
-                name=tech_data['name'],
-                defaults=tech_data
-            )
-            if created:
-                self.stdout.write(f"Created technology: {tech_data['name']}")
-        
-        # Create blog categories
+        for data in technologies_data:
+            Technology.objects.get_or_create(name=data['name'], defaults=data)
+
+        # ── Blog categories & tags ─────────────────────────────────────────
         categories_data = [
-            {'name': 'Web Development', 'description': 'Articles about web development'},
+            {'name': 'Web Development', 'description': 'Articles about building for the web'},
             {'name': 'Python', 'description': 'Python programming tutorials and tips'},
-            {'name': 'Django', 'description': 'Django framework tutorials'},
-            {'name': 'Tutorial', 'description': 'Step-by-step tutorials'},
+            {'name': 'Career', 'description': 'Lessons from working as a developer'},
         ]
-        
-        for cat_data in categories_data:
-            category, created = Category.objects.get_or_create(
-                name=cat_data['name'],
-                defaults=cat_data
-            )
-            if created:
-                self.stdout.write(f"Created category: {cat_data['name']}")
-        
-        # Create tags
-        tags_data = [
-            'python', 'django', 'web-development', 'tutorial', 'javascript', 
-            'css', 'html', 'database', 'docker', 'git'
-        ]
-        
-        for tag_name in tags_data:
-            tag, created = Tag.objects.get_or_create(
-                name=tag_name,
-                defaults={'slug': slugify(tag_name)}
-            )
-            if created:
-                self.stdout.write(f"Created tag: {tag_name}")
-        
-        # Create about section
-        about_section, created = AboutSection.objects.get_or_create(
+        for data in categories_data:
+            Category.objects.get_or_create(name=data['name'], defaults=data)
+
+        for tag_name in ['python', 'django', 'web-development', 'tutorial', 'javascript',
+                         'react', 'css', 'productivity']:
+            Tag.objects.get_or_create(name=tag_name, defaults={'slug': slugify(tag_name)})
+
+        # ── About section ──────────────────────────────────────────────────
+        AboutSection.objects.get_or_create(
             pk=1,
             defaults={
                 'title': 'About Me',
-                'greeting': '👋 Hello there!',
-                'hero_description': "I'm Alisher Muhammadaliyev, a passionate Software Developer who enjoys understanding how systems work — from low-level logic circuits to high-level applications. With solid experience in Python and modern web technologies, I aim to create efficient, reliable, and scalable software that combines logic and creativity.",
-                'content': "<p>I'm a dedicated backend developer from Uzbekistan with a strong and growing skill set in modern web technologies. My journey in programming began a few years ago, and since then I've been continuously improving my expertise in building reliable, scalable, and efficient backend systems.</p><p>I primarily work with Python, Django, Django REST Framework, and PostgreSQL — crafting clean APIs and solid server-side logic. I also enjoy working with frontend fundamentals and modern tools when needed, allowing me to understand the full picture of a web application.</p><p>My focus is always on writing maintainable code, solving real problems, and delivering systems that perform smoothly in production. I love learning new technologies, experimenting with fresh ideas, and improving my craft step by step.</p>",
-                'education': 'Computer Science',
-                'location': 'Uzbekistan Fergana',
-                'years_experience': '2+',
-                'projects_completed': '30+',
-                'happy_clients': '0+',
+                'content': "<p>I'm a full-stack developer who loves turning ideas into polished, "
+                           "production-ready products. I care about clean architecture, thoughtful "
+                           "UX, and code that's a pleasure to maintain.</p>"
+                           "<p>I work primarily with Python, Django, and modern JavaScript "
+                           "frameworks, and I'm always exploring new tools to sharpen my craft.</p>",
+                'education': 'B.Sc. Computer Science',
+                'location': 'Remote · Worldwide',
+                'languages': 'English',
+                'years_experience': '5+',
+                'projects_completed': '40+',
+                'happy_clients': '25+',
             }
         )
-        if created:
-            self.stdout.write('Created about section')
-        
-        # Create sample projects
-        django_tech = Technology.objects.get(name='Django')
-        python_tech = Technology.objects.get(name='Python')
-        postgres_tech = Technology.objects.get(name='PostgreSQL')
-        
+
+        # ── Experience ─────────────────────────────────────────────────────
+        experiences_data = [
+            {
+                'company': 'Acme Digital', 'role': 'Senior Full-Stack Developer',
+                'description': 'Lead development of customer-facing web applications, mentor junior '
+                               'engineers, and drive architecture decisions across the stack.',
+                'start_date': date(2022, 1, 1), 'is_current': True, 'order': 1,
+            },
+            {
+                'company': 'Bright Labs', 'role': 'Backend Developer',
+                'description': 'Designed and built REST APIs, optimised database performance, and '
+                               'shipped features for a high-traffic SaaS platform.',
+                'start_date': date(2019, 6, 1), 'end_date': date(2021, 12, 1), 'order': 2,
+            },
+            {
+                'company': 'Freelance', 'role': 'Web Developer',
+                'description': 'Delivered websites and small applications for a range of clients, '
+                               'handling everything from design to deployment.',
+                'start_date': date(2018, 1, 1), 'end_date': date(2019, 5, 1), 'order': 3,
+            },
+        ]
+        for data in experiences_data:
+            Experience.objects.get_or_create(
+                company=data['company'], role=data['role'], defaults=data)
+
+        # ── Services ───────────────────────────────────────────────────────
+        services_data = [
+            {'title': 'Web Development', 'icon_class': 'fas fa-code', 'order': 1,
+             'description': 'Responsive, fast websites and web apps built with modern frameworks.',
+             'features': ['Responsive design', 'SEO-friendly', 'Performance-focused']},
+            {'title': 'Backend & APIs', 'icon_class': 'fas fa-server', 'order': 2,
+             'description': 'Robust server-side systems and clean, well-documented APIs.',
+             'features': ['REST APIs', 'Database design', 'Authentication']},
+            {'title': 'Consulting', 'icon_class': 'fas fa-lightbulb', 'order': 3,
+             'description': 'Architecture reviews and technical guidance to keep projects on track.',
+             'features': ['Code review', 'Architecture', 'Best practices']},
+        ]
+        for data in services_data:
+            features = data.pop('features', [])
+            service, created = Service.objects.get_or_create(title=data['title'], defaults=data)
+            if created:
+                for name in features:
+                    ServiceFeature.objects.create(service=service, name=name)
+
+        # ── Sample projects ────────────────────────────────────────────────
+        techs = {t.name: t for t in Technology.objects.all()}
         projects_data = [
             {
-                'title': 'Portfolio Website',
-                'slug': 'portfolio-website',
-                'short_description': 'A modern portfolio website built with Django showcasing my projects and skills.',
-                'description': 'This is my personal portfolio website built from scratch using Django 5. It features a clean, responsive design with dynamic content management, blog functionality, and project showcase. The site includes features like contact forms, RSS feeds, sitemaps, and SEO optimization.',
-                'github_url': 'https://github.com/A1isherDev/portfolio',
-                'live_url': 'https://alisherdev.com',
-                'is_featured': True,
+                'title': 'TaskFlow', 'slug': 'taskflow',
+                'short_description': 'A collaborative task management app with real-time updates.',
+                'description': 'TaskFlow is a full-featured project management tool with boards, '
+                               'drag-and-drop tasks, team collaboration, and real-time updates. '
+                               'Built with Django on the backend and React on the frontend.',
+                'github_url': 'https://github.com/yourusername/taskflow',
+                'live_url': 'https://example.com/taskflow', 'is_featured': True,
+                'techs': ['Django', 'React', 'PostgreSQL'],
             },
             {
-                'title': 'Task Management API',
-                'slug': 'task-management-api',
-                'short_description': 'RESTful API for task management with Django REST Framework.',
-                'description': 'A comprehensive RESTful API built with Django REST Framework for managing tasks and projects. Features include user authentication, role-based permissions, real-time updates with WebSockets, and comprehensive API documentation.',
-                'github_url': 'https://github.com/A1isherDev/task-api',
-                'is_featured': True,
+                'title': 'DevBlog API', 'slug': 'devblog-api',
+                'short_description': 'A RESTful blogging API with authentication and rich content.',
+                'description': 'A clean, well-tested REST API for a blogging platform, featuring '
+                               'JWT authentication, role-based permissions, markdown content, and '
+                               'comprehensive OpenAPI documentation.',
+                'github_url': 'https://github.com/yourusername/devblog-api',
+                'is_featured': True, 'techs': ['Django', 'Python', 'PostgreSQL'],
             },
             {
-                'title': 'E-commerce Platform',
-                'slug': 'ecommerce-platform',
-                'short_description': 'Full-featured e-commerce platform with payment integration.',
-                'description': 'A complete e-commerce solution built with Django and PostgreSQL. Includes product catalog, shopping cart, order management, payment processing with Stripe, inventory management, and admin dashboard.',
-                'github_url': 'https://github.com/A1isherDev/ecommerce',
-                'is_featured': False,
+                'title': 'ShopLite', 'slug': 'shoplite',
+                'short_description': 'A lightweight e-commerce storefront with cart and checkout.',
+                'description': 'ShopLite is a minimal e-commerce solution with a product catalogue, '
+                               'shopping cart, checkout flow, and an admin dashboard for managing '
+                               'inventory and orders.',
+                'github_url': 'https://github.com/yourusername/shoplite',
+                'live_url': 'https://example.com/shoplite', 'is_featured': False,
+                'techs': ['Django', 'JavaScript', 'Docker'],
             },
         ]
-        
-        for project_data in projects_data:
-            project, created = Project.objects.get_or_create(
-                slug=project_data['slug'],
-                defaults=project_data
-            )
+        for data in projects_data:
+            tech_names = data.pop('techs', [])
+            project, created = Project.objects.get_or_create(slug=data['slug'], defaults=data)
             if created:
-                # Add technologies to project
-                project.technologies.add(django_tech, python_tech, postgres_tech)
-                self.stdout.write(f"Created project: {project_data['title']}")
-        
-        # Create sample blog articles
+                project.technologies.add(*[techs[n] for n in tech_names if n in techs])
+
+        # ── Sample articles ────────────────────────────────────────────────
         web_dev_cat = Category.objects.get(name='Web Development')
         python_cat = Category.objects.get(name='Python')
-        
         articles_data = [
             {
-                'title': 'Getting Started with Django 5',
-                'slug': 'getting-started-django-5',
-                'excerpt': 'Learn how to set up your first Django 5 project and explore the new features.',
-                'content': '''# Getting Started with Django 5
-
-Django 5 brings exciting new features and improvements that make web development even more enjoyable. In this tutorial, we'll walk through setting up your first Django 5 project.
-
-## Installation
-
-First, let's install Django 5:
-
-```bash
-pip install django==5.0
-```
-
-## Creating Your First Project
-
-Once installed, you can create a new project:
-
-```bash
-django-admin startproject myproject
-cd myproject
-python manage.py runserver
-```
-
-## What's New in Django 5
-
-Django 5 introduces several new features:
-- Improved async support
-- Better database constraints
-- Enhanced security features
-- Updated admin interface
-
-## Conclusion
-
-Django 5 is a significant update that brings many improvements. Start exploring these new features today!''',
-                'category': web_dev_cat,
-                'published': True,
-                'published_at': timezone.now(),
+                'title': 'Building Your First Django App', 'slug': 'building-your-first-django-app',
+                'excerpt': 'A friendly, step-by-step introduction to building a web app with Django.',
+                'content': '# Building Your First Django App\n\n'
+                           'Django makes it easy to build robust web applications quickly. In this '
+                           'guide we walk through creating a project from scratch.\n\n'
+                           '## Getting Started\n\n```bash\npip install django\n'
+                           'django-admin startproject myproject\n```\n\n'
+                           '## Creating an App\n\n```bash\npython manage.py startapp blog\n```\n\n'
+                           '## Conclusion\n\nYou now have the foundations to keep building. Happy coding!',
+                'category': web_dev_cat, 'published': True, 'published_at': timezone.now(),
             },
             {
-                'title': 'Python Best Practices for Clean Code',
-                'slug': 'python-best-practices-clean-code',
-                'excerpt': 'Discover essential Python best practices for writing clean, maintainable code.',
-                'content': '''# Python Best Practices for Clean Code
-
-Writing clean code is essential for maintainable and scalable applications. Here are some Python best practices.
-
-## Naming Conventions
-
-Use descriptive names for variables, functions, and classes:
-
-```python
-# Good
-user_name = "John"
-def calculate_total_price(items):
-    pass
-
-# Bad
-un = "John"
-def calc(x):
-    pass
-```
-
-## Function Design
-
-Keep functions small and focused on a single responsibility:
-
-```python
-# Good
-def validate_email(email):
-    return "@" in email and "." in email
-
-def send_welcome_email(email):
-    if validate_email(email):
-        # Send email logic
-        pass
-
-# Bad
-def process_user(email, name):
-    if "@" in email and "." in email:
-        # Send email logic
-        pass
-```
-
-## Conclusion
-
-Following these practices will make your Python code more readable and maintainable.''',
-                'category': python_cat,
-                'published': True,
-                'published_at': timezone.now(),
+                'title': 'Writing Clean Python Code', 'slug': 'writing-clean-python-code',
+                'excerpt': 'Practical tips for writing Python that is readable and maintainable.',
+                'content': '# Writing Clean Python Code\n\n'
+                           'Clean code is easier to read, test, and maintain. Here are a few habits '
+                           'that go a long way.\n\n'
+                           '## Use Descriptive Names\n\n```python\n# Good\n'
+                           'def calculate_total_price(items):\n    ...\n```\n\n'
+                           '## Keep Functions Small\n\nEach function should do one thing well.\n\n'
+                           '## Conclusion\n\nSmall, consistent improvements compound over time.',
+                'category': python_cat, 'published': True, 'published_at': timezone.now(),
             },
         ]
-        
-        for article_data in articles_data:
-            article, created = Article.objects.get_or_create(
-                slug=article_data['slug'],
-                defaults=article_data
-            )
+        for data in articles_data:
+            article, created = Article.objects.get_or_create(slug=data['slug'], defaults=data)
             if created:
-                # Add some tags
-                python_tag = Tag.objects.get(name='python')
-                django_tag = Tag.objects.get(name='django')
-                article.tags.add(python_tag, django_tag)
-                self.stdout.write(f"Created article: {article_data['title']}")
-        
-        # Create SEO data
+                tags = Tag.objects.filter(name__in=['python', 'django'])
+                article.tags.add(*tags)
+
+        # ── SEO ────────────────────────────────────────────────────────────
         seo_data = [
-            {
-                'page_key': 'home',
-                'meta_title': 'A1isherDev - Web Developer Portfolio',
-                'meta_description': 'Alisher Muhammadaliyev - Passionate Software Developer specializing in Python, Django, and modern web technologies.',
-                'meta_keywords': 'portfolio, developer, django, python, web development, software engineer',
-            },
-            {
-                'page_key': 'about',
-                'meta_title': 'About - A1isherDev',
-                'meta_description': 'Learn more about Alisher Muhammadaliyev, his background, skills, and experience in web development.',
-                'meta_keywords': 'about, alisher muhammadaliyev, background, experience, skills',
-            },
+            {'page_key': 'home', 'meta_title': 'Alex Morgan — Full-Stack Developer',
+             'meta_description': 'Portfolio of Alex Morgan, a full-stack developer building clean, '
+                                 'scalable web applications.',
+             'meta_keywords': 'portfolio, developer, full-stack, django, python, react'},
+            {'page_key': 'pages/about', 'meta_title': 'About — Alex Morgan',
+             'meta_description': "Learn more about Alex Morgan's background, skills, and experience.",
+             'meta_keywords': 'about, developer, experience, skills'},
         ]
-        
-        for seo_item in seo_data:
-            seo, created = SEO.objects.get_or_create(
-                page_key=seo_item['page_key'],
-                defaults=seo_item
-            )
-            if created:
-                self.stdout.write(f"Created SEO data for: {seo_item['page_key']}")
-        
-        self.stdout.write(self.style.SUCCESS('Initial data populated successfully!'))
+        for data in seo_data:
+            SEO.objects.get_or_create(page_key=data['page_key'], defaults=data)
+
+        self.stdout.write(self.style.SUCCESS('Placeholder data populated successfully!'))

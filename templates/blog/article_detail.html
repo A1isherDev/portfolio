@@ -606,11 +606,9 @@
             {% endif %}
 
             <div class="ad-meta">
-                <span class="ad-meta-item"><i class="far fa-calendar-alt"></i>{{ article.published_at|date:"F d, Y"
-                    }}</span>
+                <span class="ad-meta-item"><i class="far fa-calendar-alt"></i>{{ article.published_at|date:"F d, Y" }}</span>
                 <span class="ad-meta-item"><i class="far fa-clock"></i>{{ article.reading_time }} min read</span>
-                {% if article.author %}<span class="ad-meta-item"><i class="far fa-user"></i>{{ article.author
-                    }}</span>{% endif %}
+                {% if article.author %}<span class="ad-meta-item"><i class="far fa-user"></i>{{ article.author }}</span>{% endif %}
             </div>
         </div>
 

@@ -9,7 +9,7 @@
         </div>
         <ul class="nav-menu">
             <li><a href="{% url 'home' %}"
-                    class="nav-link {% if request.resolved_url == '/' %}active{% endif %}">Home</a></li>
+                    class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
             <li><a href="{% url 'pages:about' %}"
                     class="nav-link {% if 'about' in request.path %}active{% endif %}">About</a></li>
             <li><a href="{% url 'pages:skills' %}"

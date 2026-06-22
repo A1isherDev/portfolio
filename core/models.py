@@ -3,37 +3,42 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 
+DEFAULT_SITE = {
+    'site_name': 'Alex Morgan',
+    'hero_title': "I'm Alex Morgan",
+    'hero_subtitle': 'Full-Stack Developer',
+    'hero_greeting': '👋 Hello, I am',
+    'hero_description': "I build clean, scalable web applications with a focus on great user "
+                        "experiences and reliable backend systems.",
+    'contact_email': 'hello@example.com',
+    'phone': '',
+    'location': 'Remote · Worldwide',
+}
+
+
 class SiteSetting(models.Model):
-    site_name = models.CharField(max_length=200, default="A1isherDev")
-    hero_title = models.CharField(max_length=500, default="I'm Alisher")
-    hero_subtitle = models.CharField(max_length=500, default="Web Developer")
-    hero_greeting = models.CharField(max_length=100, default="👋 Hello there!")
-    hero_description = models.TextField(default="I'm a passionate Software Developer who enjoys understanding how systems work.")
-    contact_email = models.EmailField(default="alisher@example.com")
+    site_name = models.CharField(max_length=200, default=DEFAULT_SITE['site_name'])
+    hero_title = models.CharField(max_length=500, default=DEFAULT_SITE['hero_title'])
+    hero_subtitle = models.CharField(max_length=500, default=DEFAULT_SITE['hero_subtitle'])
+    hero_greeting = models.CharField(max_length=100, default=DEFAULT_SITE['hero_greeting'])
+    hero_description = models.TextField(default=DEFAULT_SITE['hero_description'])
+    contact_email = models.EmailField(default=DEFAULT_SITE['contact_email'])
+    phone = models.CharField(max_length=50, blank=True, default='', help_text="Optional public phone number")
+    location = models.CharField(max_length=200, blank=True, default=DEFAULT_SITE['location'])
     logo = models.FileField(upload_to='core/', blank=True, null=True)
     favicon = models.FileField(upload_to='core/', blank=True, null=True)
     cv = models.FileField(upload_to='cv/', blank=True, null=True)
-    
+
     class Meta:
         verbose_name = "Site Setting"
         verbose_name_plural = "Site Settings"
-    
+
     def __str__(self):
         return self.site_name
-    
+
     @classmethod
     def get_singleton(cls):
-        obj, created = cls.objects.get_or_create(
-            pk=1,
-            defaults={
-                'site_name': 'A1isherDev',
-                'hero_title': "I'm Alisher",
-                'hero_subtitle': 'Web Developer',
-                'hero_greeting': '👋 Hello there!',
-                'hero_description': "I'm a passionate Software Developer who enjoys understanding how systems work.",
-                'contact_email': 'alisher@example.com'
-            }
-        )
+        obj, created = cls.objects.get_or_create(pk=1, defaults=DEFAULT_SITE)
         return obj
 
 
@@ -77,3 +82,21 @@ class SEO(models.Model):
     
     def __str__(self):
         return f"{self.page_key} - {self.meta_title}"
+
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    subject = models.CharField(max_length=255, blank=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    emailed = models.BooleanField(default=False, help_text="Whether a notification email was sent")
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Contact Message"
+        verbose_name_plural = "Contact Messages"
+
+    def __str__(self):
+        return f"{self.name} <{self.email}> — {self.subject or 'No subject'}"

@@ -57,7 +57,7 @@
                     {% if site_settings.logo %}
                     <img src="{{ site_settings.logo.url }}" alt="Profile photo" class="profile-image">
                     {% else %}
-                    <img src="{% static 'images/img.png' %}" alt="Profile photo" class="profile-image">
+                    <img src="{% static 'images/avatar.svg' %}" alt="Profile photo" class="profile-image">
                     {% endif %}
                     <div class="floating-card card-1">
                         <i class="fas fa-code"></i>
@@ -83,8 +83,7 @@
         <div class="about-intro-content">
             <div class="about-intro-text">
                 <h2 class="section-title">About Me</h2>
-                <p>I'm a dedicated backend developer from Uzbekistan with a strong and growing skill set in modern web
-                    technologies. I specialize in building robust, scalable applications using Python and Django.</p>
+                <p>{{ site_settings.hero_description }}</p>
                 <a href="{% url 'pages:about' %}" class="btn btn-primary">Learn More About Me</a>
             </div>
         </div>
@@ -188,66 +187,6 @@
 
 <!-- Featured Projects Section -->
 {% if featured_projects %}
-<!-- Forced Styles for Featured Projects -->
-<style>
-    .featured-projects .projects-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 3rem !important;
-        margin-top: 60px !important;
-    }
-
-    .featured-projects .project-card {
-        background: var(--glass-1) !important;
-        border: 1px solid var(--glass-border) !important;
-        border-radius: 24px !important;
-        overflow: hidden !important;
-        backdrop-filter: var(--blur-std) !important;
-        box-shadow: var(--shadow-md), var(--inner-glow) !important;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-        display: flex !important;
-        flex-direction: column !important;
-        height: 100% !important;
-    }
-
-    .featured-projects .project-card:hover {
-        background: var(--glass-2) !important;
-        transform: translateY(-10px) !important;
-        border-color: var(--accent-primary) !important;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), var(--accent-glow) !important;
-    }
-
-    .featured-projects .project-image {
-        height: 300px !important;
-        border-bottom: 1px solid var(--glass-border) !important;
-    }
-
-    .featured-projects .project-image img {
-        transition: transform 0.6s ease !important;
-    }
-
-    .featured-projects .project-card:hover .project-image img {
-        transform: scale(1.1) !important;
-    }
-
-    .featured-projects .project-content {
-        padding: 2.5rem !important;
-        flex-grow: 1 !important;
-    }
-
-    .featured-projects .project-content h3 {
-        font-size: 1.75rem !important;
-        margin-bottom: 0.75rem !important;
-        font-family: var(--font-display) !important;
-    }
-
-    @media (max-width: 992px) {
-        .featured-projects .projects-grid {
-            grid-template-columns: 1fr !important;
-        }
-    }
-</style>
-
 <section id="projects" class="section featured-projects">
     <div class="container">
         <h2 class="section-title">Featured Projects</h2>
@@ -258,7 +197,7 @@
                     {% if project.image %}
                     <img src="{{ project.image.url }}" alt="{{ project.title }}">
                     {% else %}
-                    <img src="{% static 'images/project-placeholder.jpg' %}" alt="{{ project.title }}">
+                    <img src="{% static 'images/project-placeholder.svg' %}" alt="{{ project.title }}">
                     {% endif %}
                 </div>
                 <div class="project-content">
@@ -288,87 +227,6 @@
 
 <!-- Latest Blog Section -->
 {% if latest_articles %}
-<!-- Forced Styles for Latest Articles -->
-<style>
-    .latest-blog .home-articles-list {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 2.5rem !important;
-        margin-top: 50px !important;
-    }
-
-    .latest-blog .article-card {
-        display: flex !important;
-        flex-direction: column !important;
-        background: var(--glass-1) !important;
-        border: 1px solid var(--glass-border) !important;
-        border-radius: 24px !important;
-        overflow: hidden !important;
-        backdrop-filter: var(--blur-std) !important;
-        box-shadow: var(--shadow-md), var(--inner-glow) !important;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-        height: 100% !important;
-    }
-
-    .latest-blog .article-card:hover {
-        background: var(--glass-2) !important;
-        transform: translateY(-10px) !important;
-        border-color: var(--accent-primary) !important;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), var(--accent-glow) !important;
-    }
-
-    .latest-blog .article-card-image {
-        height: 240px !important;
-        width: 100% !important;
-        border-right: none !important;
-        border-bottom: 1px solid var(--glass-border) !important;
-    }
-
-    .latest-blog .article-card-image img {
-        transition: transform 0.6s ease !important;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-    }
-
-    .latest-blog .article-card:hover .article-card-image img {
-        transform: scale(1.1) !important;
-    }
-
-    .latest-blog .article-card-content {
-        padding: 2rem !important;
-        flex-grow: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-    }
-
-    .latest-blog .article-card-title {
-        font-size: 1.5rem !important;
-        margin: 1rem 0 0.5rem !important;
-        font-family: var(--font-display) !important;
-        line-height: 1.3 !important;
-    }
-
-    .latest-blog .article-excerpt {
-        color: var(--text-secondary) !important;
-        font-size: 1rem !important;
-        line-height: 1.6 !important;
-        margin-bottom: 1.5rem !important;
-        display: -webkit-box !important;
-        -webkit-line-clamp: 3 !important;
-        line-clamp: 3 !important;
-        -webkit-box-orient: vertical !important;
-        overflow: hidden !important;
-    }
-
-    @media (max-width: 768px) {
-        .latest-blog .home-articles-list {
-            grid-template-columns: 1fr !important;
-        }
-    }
-</style>
-
 <section id="blog" class="section latest-blog">
     <div class="container">
         <h2 class="section-title">Latest Articles</h2>
@@ -422,39 +280,42 @@
                     </div>
                     <div class="contact-details">
                         <h3>Email</h3>
-                        <p>{{ site_settings.contact_email|default:"contact@example.com" }}</p>
-                        <a href="mailto:{{ site_settings.contact_email|default:'contact@example.com' }}">Send Email</a>
+                        <p>{{ site_settings.contact_email|default:"hello@example.com" }}</p>
+                        <a href="mailto:{{ site_settings.contact_email|default:'hello@example.com' }}">Send Email</a>
                     </div>
                 </div>
+                {% if site_settings.phone %}
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="contact-details">
                         <h3>Phone</h3>
-                        <p>+998 88 003 25 08</p>
-                        <a href="tel:+998880032508">Call Now</a>
+                        <p>{{ site_settings.phone }}</p>
+                        <a href="tel:{{ site_settings.phone }}">Call Now</a>
                     </div>
                 </div>
+                {% endif %}
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="contact-details">
                         <h3>Location</h3>
-                        <p>{{ about_section.location|default:"Uzbekistan Fergana" }}</p>
+                        <p>{{ site_settings.location|default:about_section.location|default:"Remote · Worldwide" }}</p>
                     </div>
                 </div>
+                {% for social_link in social_links %}
                 <div class="contact-item">
                     <div class="contact-icon">
-                        <i class="fab fa-telegram"></i>
+                        <i class="{{ social_link.icon_class|default:'fas fa-link' }}"></i>
                     </div>
                     <div class="contact-details">
-                        <h3>Telegram</h3>
-                        <p>@Alisher_Muhammmadaliyev</p>
-                        <a href="https://t.me/Alisher_Muhammadaliyev" target="_blank">Send Message</a>
+                        <h3>{{ social_link.get_platform_name_display }}</h3>
+                        <a href="{{ social_link.url }}" target="_blank" rel="noopener">Connect</a>
                     </div>
                 </div>
+                {% endfor %}
             </div>
 
             <div class="contact-form">
@@ -478,49 +339,4 @@
         </div>
     </div>
 </section>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const formData = new FormData(this);
-                const submitBtn = this.querySelector('.submit-btn');
-                const originalText = submitBtn.textContent;
-
-                submitBtn.textContent = 'Sending...';
-                submitBtn.disabled = true;
-
-                fetch(this.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert(data.message);
-                            this.reset();
-                        } else {
-                            alert(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        alert('An error occurred. Please try again.');
-                    })
-                    .finally(() => {
-                        submitBtn.textContent = originalText;
-                        submitBtn.disabled = false;
-                    });
-            });
-        }
-    });
-</script>
 {% endblock %}

@@ -7,7 +7,7 @@
         <div class="footer-content">
             <div class="footer-section footer-about">
                 <div class="footer-brand">
-                    <h3>{{ site_settings.site_name|default:"AlisherDev" }}<span class="brand-dot">.</span></h3>
+                    <h3>{{ site_settings.site_name|default:"Portfolio" }}<span class="brand-dot">.</span></h3>
                 </div>
                 <p class="footer-tagline">{{ site_settings.hero_subtitle|default:"Software Engineer & Problem Solver" }}
                 </p>
@@ -47,7 +47,7 @@
                 <div class="contact-info">
                     <p><a href="{% url 'core:contact' %}" class="footer-link"><i class="fas fa-envelope"></i> Contact
                             Me</a></p>
-                    <p><i class="fas fa-at"></i> <span>{{ site_settings.contact_email|default:'contact@guts.uz' }}</span></p>
+                    <p><i class="fas fa-at"></i> <span>{{ site_settings.contact_email|default:'hello@example.com' }}</span></p>
                 </div>
                 <div class="footer-cta">
                     <a href="{% url 'core:contact' %}" class="cta-btn">Get In Touch</a>
@@ -57,7 +57,7 @@
 
         <div class="footer-bottom">
             <div class="footer-bottom-content">
-                <p>&copy; {% now 'Y' %} {{ site_settings.site_name|default:'AlisherDev' }}. All rights reserved.</p>
+                <p>&copy; {% now 'Y' %} {{ site_settings.site_name|default:'Portfolio' }}. All rights reserved.</p>
                 <div class="footer-bottom-links">
                     <a href="#">Privacy Policy</a>
                     <a href="#">Terms of Service</a>

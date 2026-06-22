@@ -1,6 +1,6 @@
 # Django Portfolio Website
 
-A production-grade Django web application transformed from a static HTML portfolio into a dynamic, CMS-like structure with full admin capabilities.
+A production-grade, reusable Django portfolio template with a dynamic, CMS-like structure and full admin capabilities. It ships with neutral placeholder content (the "Alex Morgan" persona) seeded via `populate_data` — replace it with your own from the Django admin (`/admin/`) without touching any code.
 
 ## 🚀 Features
 
@@ -8,7 +8,7 @@ A production-grade Django web application transformed from a static HTML portfol
 - **Dynamic Content Management**: All content editable from Django admin
 - **SEO Optimized**: Meta tags, Open Graph, sitemap.xml, RSS feeds
 - **Responsive Design**: Mobile-friendly layouts
-- **Contact Form**: Email sending with AJAX support
+- **Contact Form**: Messages are saved to the database (viewable in the admin) with AJAX submission and toast feedback; email delivery is optional
 - **Media Management**: Image uploads for projects, articles, and site settings
 
 ### Apps Structure
@@ -57,7 +57,7 @@ A production-grade Django web application transformed from a static HTML portfol
 
 3. **Install Dependencies**
    ```bash
-   pip install django django-extensions pillow markdown django-summernote
+   pip install -r requirements.txt
    ```
 
 4. **Run Migrations**

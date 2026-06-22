@@ -43,7 +43,8 @@ urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]
 
-# Serve media files in development
+# Serve media files in development. Static files are served automatically by
+# Django's staticfiles app (from STATICFILES_DIRS) when DEBUG is True, and by
+# WhiteNoise in production — so we only need to wire up media here.
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

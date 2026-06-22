@@ -29,7 +29,7 @@
                         {% if project.image %}
                             <img src="{{ project.image.url }}" alt="{{ project.title }}">
                         {% else %}
-                            <img src="{% static 'images/project-placeholder.jpg' %}" alt="{{ project.title }}">
+                            <img src="{% static 'images/project-placeholder.svg' %}" alt="{{ project.title }}">
                         {% endif %}
                         {% if project.is_featured %}
                             <div class="featured-badge">Featured</div>
