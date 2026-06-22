@@ -192,6 +192,16 @@ header.scrolled {
     letter-spacing: -0.03em;
 }
 
+/* Keep an uploaded logo image small in the navbar regardless of its real size */
+.brand-logo {
+    height: 44px;
+    width: 44px;
+    max-width: 44px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
 .brand-dot {
     display: inline-block;
     width: 8px;

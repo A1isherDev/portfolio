@@ -98,10 +98,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // ─── Typewriter Effect ─────────────────────────────────────────────────────
     if (heroSubitle) {
         const professions = [
-            'Full-Stack Developer',
             'Backend Developer',
-            'Problem Solver',
-            'Tech Innovator'
+            'Software Engineer',
+            'Python & Django Developer',
+            'Problem Solver'
         ];
         let pi = 0, ci = 0, deleting = false;
 
