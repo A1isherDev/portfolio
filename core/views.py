@@ -29,16 +29,27 @@ class HomePageView(TemplateView):
         )[:3]
 
         # Get skills for homepage and group them
-        from pages.models import Skill, AboutSection, Service
+        from pages.models import Skill, AboutSection, Service, Experience
         context['skills'] = Skill.objects.all().order_by('group', 'order', 'name')
-        context['about_section'] = AboutSection.get_singleton()
+        about = AboutSection.get_singleton()
+        context['about_section'] = about
         context['services'] = Service.objects.all().prefetch_related('features')
+        context['experiences'] = Experience.objects.all().order_by('-start_date', 'order')[:2]
 
         skills_by_group = {}
         for skill in context['skills']:
             group = skill.get_group_display()
             skills_by_group.setdefault(group, []).append(skill)
         context['skills_by_group'] = skills_by_group
+
+        # Numeric hero stats (for count-up animation)
+        from portfolio.models import Technology
+        def _digits(s, default=0):
+            d = ''.join(ch for ch in str(s) if ch.isdigit())
+            return int(d) if d else default
+        context['stat_projects'] = Project.objects.filter(is_active=True).count()
+        context['stat_years'] = _digits(about.years_experience, 2)
+        context['stat_tech'] = Technology.objects.count()
 
         return context
 

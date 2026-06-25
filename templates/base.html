@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-motion="full">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,7 @@
     <!-- SEO Meta Tags -->
     <meta name="description" content="{% block meta_description %}{{ seo.meta_description }}{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}{{ seo.meta_keywords }}{% endblock %}">
+    <meta name="theme-color" content="#05060a">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title"
@@ -23,22 +24,27 @@
     <meta property="og:image" content="{{ request.build_absolute_uri }}{{ site_settings.logo.url }}">
     {% endif %}
 
-    <!-- Favicon -->
     {% if site_settings.favicon %}
     <link rel="icon" type="image/png" href="{{ site_settings.favicon.url }}">
     {% endif %}
 
-    <!-- External CSS -->
+    <!-- Fonts + icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/django-styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/futuristic.css' %}">
 
     {% block extra_css %}{% endblock %}
 </head>
 
 <body>
+    <!-- Background FX layers -->
+    <div class="fx-grid"></div>
+    <div class="fx-glow"></div>
+    <div class="fx-scan"></div>
+
     {% include 'partials/navbar.html' %}
 
     <main>
@@ -47,20 +53,19 @@
 
     {% include 'partials/footer.html' %}
 
-    <!-- Scripts -->
-    <script src="{% static 'js/script.js' %}"></script>
-    {% block extra_js %}{% endblock %}
-
     <!-- Django Messages -->
     {% if messages %}
     <div class="messages-container">
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-        </div>
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
         {% endfor %}
     </div>
     {% endif %}
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="{% static 'js/site-fx.js' %}" defer></script>
+    {% block extra_js %}{% endblock %}
 </body>
 
 </html>

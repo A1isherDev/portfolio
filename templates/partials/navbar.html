@@ -1,33 +1,23 @@
-<header>
-    <nav class="navbar">
-        <div class="nav-brand">
-            {% if site_settings.logo %}
-            <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}" class="brand-logo">
-            {% else %}
-            {{ site_settings.site_name|default:"Portfolio" }}<span class="brand-dot">.</span>
-            {% endif %}
-        </div>
-        <ul class="nav-menu">
-            <li><a href="{% url 'home' %}"
-                    class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
-            <li><a href="{% url 'pages:about' %}"
-                    class="nav-link {% if 'about' in request.path %}active{% endif %}">About</a></li>
-            <li><a href="{% url 'pages:skills' %}"
-                    class="nav-link {% if 'skills' in request.path %}active{% endif %}">Skills</a></li>
-            <li><a href="{% url 'portfolio:project_list' %}"
-                    class="nav-link {% if 'projects' in request.path %}active{% endif %}">Projects</a></li>
-            <li><a href="{% url 'blog:article_list' %}"
-                    class="nav-link {% if 'blog' in request.path %}active{% endif %}">Blog</a></li>
-            <li><a href="{% url 'core:contact' %}"
-                    class="nav-link {% if 'contact' in request.path %}active{% endif %}">Contact</a></li>
-        </ul>
-        <div class="nav-cta">
-            <a href="{% url 'core:contact' %}" class="cta-btn">Let's Talk</a>
-        </div>
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
-</header>
+{% load static %}
+<nav class="nav">
+    <a href="{% url 'home' %}" class="brand">
+        <span class="mark">
+            {% if site_settings.logo %}<img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}">{% else %}A{% endif %}
+        </span>
+        <span class="name">A.M <i>//</i> BACKEND</span>
+    </a>
+
+    <div class="nav-links">
+        <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">HOME</a>
+        <a href="{% url 'pages:about' %}" class="{% if 'about' in request.path %}active{% endif %}">ABOUT</a>
+        <a href="{% url 'pages:skills' %}" class="{% if 'skills' in request.path %}active{% endif %}">SKILLS</a>
+        <a href="{% url 'portfolio:project_list' %}" class="{% if 'projects' in request.path %}active{% endif %}">WORK</a>
+        <a href="{% url 'blog:article_list' %}" class="{% if 'blog' in request.path %}active{% endif %}">BLOG</a>
+        <a href="{% url 'core:contact' %}" class="{% if 'contact' in request.path %}active{% endif %}">CONTACT</a>
+    </div>
+
+    <a href="{% url 'core:contact' %}" class="nav-cta">
+        <span class="dot pulse"></span><span>OPEN TO WORK</span>
+    </a>
+    <button class="nav-burger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+</nav>

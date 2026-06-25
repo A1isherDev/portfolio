@@ -1,68 +1,12 @@
+{% load static %}
 <footer class="footer">
-    <!-- Decorative Background Glows -->
-    <div class="footer-glow footer-glow-1"></div>
-    <div class="footer-glow footer-glow-2"></div>
-
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-section footer-about">
-                <div class="footer-brand">
-                    <h3>{{ site_settings.site_name|default:"Portfolio" }}<span class="brand-dot">.</span></h3>
-                </div>
-                <p class="footer-tagline">{{ site_settings.hero_subtitle|default:"Software Engineer & Problem Solver" }}
-                </p>
-                <div class="social-links">
-                    {% for social_link in social_links %}
-                    <a href="{{ social_link.url }}" aria-label="{{ social_link.get_platform_name_display }}"
-                        class="social-icon" target="_blank">
-                        <i class="{{ social_link.icon_class|default:'fas fa-link' }}"></i>
-                    </a>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul class="footer-links">
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'pages:about' %}">About</a></li>
-                    <li><a href="{% url 'portfolio:project_list' %}">Projects</a></li>
-                    <li><a href="{% url 'blog:article_list' %}">Blog</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Categories</h4>
-                <ul class="footer-links">
-                    {% load blog_tags %}
-                    {% get_categories as categories %}
-                    {% for category in categories|slice:':5' %}
-                    <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="footer-section footer-contact">
-                <h4>Contact</h4>
-                <div class="contact-info">
-                    <p><a href="{% url 'core:contact' %}" class="footer-link"><i class="fas fa-envelope"></i> Contact
-                            Me</a></p>
-                    <p><i class="fas fa-at"></i> <span>{{ site_settings.contact_email|default:'hello@example.com' }}</span></p>
-                </div>
-                <div class="footer-cta">
-                    <a href="{% url 'core:contact' %}" class="cta-btn">Get In Touch</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="footer-bottom-content">
-                <p>&copy; {% now 'Y' %} {{ site_settings.site_name|default:'Portfolio' }}. All rights reserved.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
-            </div>
-        </div>
+    <span>&copy; {% now 'Y' %} {{ site_settings.site_name|default:'Portfolio'|upper }}</span>
+    <div class="footer-links">
+        <a href="{% url 'pages:about' %}">About</a>
+        <a href="{% url 'pages:skills' %}">Skills</a>
+        <a href="{% url 'portfolio:project_list' %}">Work</a>
+        <a href="{% url 'blog:article_list' %}">Blog</a>
+        <a href="{% url 'core:contact' %}">Contact</a>
     </div>
+    <span class="ops"><span class="dot"></span>SYSTEM OPERATIONAL</span>
 </footer>
